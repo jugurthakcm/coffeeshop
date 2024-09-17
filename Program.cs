@@ -28,7 +28,7 @@ while (isAppRunning)
             break;
 
         case MenuOptions.UpdateProduct:
-            ProductController.UpdateProduct();
+            ProductService.UpdateProduct();
             break;
 
         case MenuOptions.ViewProduct:

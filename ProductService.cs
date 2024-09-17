@@ -24,8 +24,16 @@ internal class ProductService
 
     internal static void GetProductById()
     {
-        var product = ProductService.GetProductOptionInput();
+        var product = GetProductOptionInput();
         UserInterface.ShowProduct(product);
+    }
+
+    internal static void UpdateProduct()
+    {
+        var product = GetProductOptionInput();
+        product.Name = AnsiConsole.Ask<string>("Product's new name:");
+
+        ProductController.UpdateProduct(product);
     }
 
     // Get User Product Input
