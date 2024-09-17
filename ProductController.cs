@@ -1,3 +1,4 @@
+using Spectre.Console;
 
 namespace coffeeshop;
 
@@ -5,7 +6,11 @@ public class ProductController
 {
     internal static void AddProduct()
     {
-        throw new NotImplementedException();
+        var name = AnsiConsole.Ask<string>("Product's name:");
+        using var db = new ProductsContext();
+
+        db.Add(new Product { Name = name });
+        db.SaveChanges();
     }
 
     internal static void DeleteProduct()
@@ -18,9 +23,13 @@ public class ProductController
         throw new NotImplementedException();
     }
 
-    internal static void ViewAllProducts()
+    internal static List<Product> ViewAllProducts()
     {
-        throw new NotImplementedException();
+        using var db = new ProductsContext();
+
+        var products = db.Products.ToList();
+
+        return products;
     }
 
     internal static void ViewProduct()
