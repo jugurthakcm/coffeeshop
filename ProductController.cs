@@ -6,16 +6,19 @@ public class ProductController
 {
     internal static void AddProduct(string name)
     {
-       
         using var db = new ProductsContext();
 
         db.Add(new Product { Name = name });
         db.SaveChanges();
     }
 
-    internal static void DeleteProduct()
+    internal static void DeleteProduct(Product product)
     {
-        throw new NotImplementedException();
+        using var db = new ProductsContext();
+
+        db.Remove(product);
+
+        db.SaveChanges();
     }
 
     internal static void UpdateProduct()
