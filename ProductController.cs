@@ -4,9 +4,9 @@ namespace coffeeshop;
 
 public class ProductController
 {
-    internal static void AddProduct()
+    internal static void AddProduct(string name)
     {
-        var name = AnsiConsole.Ask<string>("Product's name:");
+       
         using var db = new ProductsContext();
 
         db.Add(new Product { Name = name });
@@ -23,7 +23,7 @@ public class ProductController
         throw new NotImplementedException();
     }
 
-    internal static List<Product> ViewAllProducts()
+    internal static List<Product> GetAllProducts()
     {
         using var db = new ProductsContext();
 
@@ -32,8 +32,12 @@ public class ProductController
         return products;
     }
 
-    internal static void ViewProduct()
+    internal static Product GetProductById(int id)
     {
-        throw new NotImplementedException();
+        using var db = new ProductsContext();
+
+        var product = db.Products.SingleOrDefault(p => p.Id == id);
+
+        return product;
     }
 }

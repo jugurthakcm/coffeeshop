@@ -4,6 +4,24 @@ namespace coffeeshop;
 
 internal static class UserInterface
 {
+    internal static void ShowProduct(Product product)
+    {
+        var panel = new Panel(
+            $@"Id: {product.Id}
+Name: {product.Name}"
+        );
+
+        panel.Header = new PanelHeader("Product Info");
+        panel.Padding = new Padding(2, 2, 2, 2);
+
+        AnsiConsole.Write(panel);
+
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadLine();
+
+        Console.Clear();
+    }
+
     internal static void ShowProductTable(List<Product> products)
     {
         var table = new Table();
