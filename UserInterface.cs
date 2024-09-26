@@ -1,9 +1,52 @@
 using Spectre.Console;
+using static coffeeshop.Enums;
 
 namespace coffeeshop;
 
 internal static class UserInterface
 {
+
+    internal static void MainMenu(){
+        var isAppRunning = true;
+
+while (isAppRunning)
+{
+    var option = AnsiConsole.Prompt(
+        new SelectionPrompt<MenuOptions>()
+            .Title("What would you like to do?")
+            .AddChoices(
+                MenuOptions.AddProduct,
+                MenuOptions.DeleteProduct,
+                MenuOptions.UpdateProduct,
+                MenuOptions.ViewProduct,
+                MenuOptions.ViewAllProducts
+            )
+    );
+
+    switch (option)
+    {
+        case MenuOptions.AddProduct:
+            ProductService.InsertProduct();
+            break;
+
+        case MenuOptions.DeleteProduct:
+            ProductService.DeleteProduct();
+            break;
+
+        case MenuOptions.UpdateProduct:
+            ProductService.UpdateProduct();
+            break;
+
+        case MenuOptions.ViewProduct:
+            ProductService.GetProductById();
+            break;
+
+        case MenuOptions.ViewAllProducts:
+            ProductService.GetAllProducts();
+            break;
+    }
+}
+    }
     internal static void ShowProduct(Product product)
     {
         var panel = new Panel(
