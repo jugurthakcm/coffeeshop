@@ -1,6 +1,8 @@
+using coffeeshop.Controllers;
+using coffeeshop.Models;
 using Spectre.Console;
 
-namespace coffeeshop;
+namespace coffeeshop.Services;
 
 internal class ProductService
 {
@@ -10,8 +12,11 @@ internal class ProductService
             new()
             {
                 Name = AnsiConsole.Ask<string>("Product's name:"),
-                Price = AnsiConsole.Ask<decimal>("Product's price:")
-            };
+                Price = AnsiConsole.Ask<decimal>("Product's price:"),
+                CategoryId = CategoryService.GetCategoryOptionInput().CategoryId
+    };
+
+        
         ProductController.AddProduct(product);
     }
 
@@ -59,7 +64,7 @@ internal class ProductService
             new SelectionPrompt<string>().Title("Choose Product").AddChoices(productsArray)
         );
 
-        var id = products.Single(p => p.Name == option).Id;
+        var id = products.Single(p => p.Name == option).ProductId;
 
         var product = ProductController.GetProductById(id);
 

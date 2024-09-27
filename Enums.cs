@@ -1,13 +1,18 @@
 namespace coffeeshop;
 
-internal class Enums{
-    internal enum MenuOptions
+internal class Enums
 {
-    AddProduct,
-    DeleteProduct,
-    UpdateProduct,
-    ViewProduct,
-    ViewAllProducts,
-    Quit
-}
+    internal enum MenuOptions
+    {
+        AddCategory,
+        ViewAllCategories,
+        DeleteCategory,
+        AddProduct,
+        DeleteProduct,
+        UpdateProduct,
+        ViewProduct,
+        ViewAllProducts,
+        Quit,
+        UpdateCategory
+    }
 }
