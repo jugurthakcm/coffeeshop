@@ -17,62 +17,136 @@ internal static class UserInterface
             Console.Clear();
 
             var option = AnsiConsole.Prompt(
-                new SelectionPrompt<MenuOptions>()
+                new SelectionPrompt<MainMenuOptions>()
                     .Title("What would you like to do?")
                     .AddChoices(
-                    MenuOptions.AddCategory,
-                    MenuOptions.ViewAllCategories,
-                    MenuOptions.DeleteCategory,
-                    MenuOptions.UpdateCategory,
-                        MenuOptions.AddProduct,
-                        MenuOptions.DeleteProduct,
-                        MenuOptions.UpdateProduct,
-                        MenuOptions.ViewProduct,
-                        MenuOptions.ViewAllProducts
+                    MainMenuOptions.ManageCategories,
+                    MainMenuOptions.ManageProducts,
+                    MainMenuOptions.Quit
                     )
             );
 
             switch (option)
             {
-                case MenuOptions.AddCategory:
-                    CategoryService.InsertCategory();
+                case MainMenuOptions.ManageCategories:
+                    CategoriesMenu();
                     break;
 
-                case MenuOptions.ViewAllCategories:
-                    CategoryService.GetAllCategories();
+                case MainMenuOptions.ManageProducts:
+                    ProductsMenu();
                     break;
 
-                case MenuOptions.DeleteCategory:
-                    CategoryService.DeleteCategory();
-                    break;
-
-
-                case MenuOptions.UpdateCategory:
-                    CategoryService.UpdateCategory();
-                    break;
-
-                case MenuOptions.AddProduct:
-                    ProductService.InsertProduct();
-                    break;
-
-                case MenuOptions.DeleteProduct:
-                    ProductService.DeleteProduct();
-                    break;
-
-                case MenuOptions.UpdateProduct:
-                    ProductService.UpdateProduct();
-                    break;
-
-                case MenuOptions.ViewProduct:
-                    ProductService.GetProductById();
-                    break;
-
-                case MenuOptions.ViewAllProducts:
-                    ProductService.GetAllProducts();
+                case MainMenuOptions.Quit:
+                    Console.WriteLine("Goodbye");
+                    isAppRunning = false;
                     break;
             }
         }
     }
+
+    internal static void CategoriesMenu()
+    {
+        var isCategoryMenuRunning = true;
+
+        while (isCategoryMenuRunning)
+        {
+            Console.Clear();
+
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<CategoryMenu>()
+                    .Title("What would you like to do?")
+                    .AddChoices(
+                    CategoryMenu.AddCategory,
+                    CategoryMenu.ViewAllCategories,
+                    CategoryMenu.ViewCategory,
+                    CategoryMenu.DeleteCategory,
+                    CategoryMenu.UpdateCategory,
+                    CategoryMenu.GoBack
+                    )
+            );
+
+            switch (option)
+            {
+                case CategoryMenu.AddCategory:
+                    CategoryService.InsertCategory();
+                    break;
+
+                case CategoryMenu.ViewAllCategories:
+                    CategoryService.GetAllCategories();
+                    break;
+
+                case CategoryMenu.ViewCategory:
+                    CategoryService.GetCategory();
+                    break;
+
+                case CategoryMenu.DeleteCategory:
+                    CategoryService.DeleteCategory();
+                    break;
+
+
+                case CategoryMenu.UpdateCategory:
+                    CategoryService.UpdateCategory();
+                    break;
+
+                case CategoryMenu.GoBack:
+                    isCategoryMenuRunning = false;
+                    break;
+
+            }
+        }
+    }
+
+
+    internal static void ProductsMenu()
+    {
+        var isProductMenuRunning = true;
+
+        while (isProductMenuRunning)
+        {
+            Console.Clear();
+
+            var option = AnsiConsole.Prompt(
+                new SelectionPrompt<ProductMenu>()
+                    .Title("What would you like to do?")
+                    .AddChoices(
+                        ProductMenu.AddProduct,
+                        ProductMenu.DeleteProduct,
+                        ProductMenu.UpdateProduct,
+                        ProductMenu.ViewProduct,
+                        ProductMenu.ViewAllProducts,
+                        ProductMenu.GoBack
+                    )
+            );
+
+            switch (option)
+            {
+                 case ProductMenu.AddProduct:
+                    ProductService.InsertProduct();
+                    break;
+
+                case ProductMenu.DeleteProduct:
+                    ProductService.DeleteProduct();
+                    break;
+
+                case ProductMenu.UpdateProduct:
+                    ProductService.UpdateProduct();
+                    break;
+
+                case ProductMenu.ViewProduct:
+                    ProductService.GetProductById();
+                    break;
+
+                case ProductMenu.ViewAllProducts:
+                    ProductService.GetAllProducts();
+                    break;
+
+                case ProductMenu.GoBack:
+                    isProductMenuRunning = false;
+                    break;
+            }
+        }
+    }
+
     internal static void ShowProduct(Product product)
     {
         var panel = new Panel(
@@ -133,5 +207,22 @@ Category: {product.Category.Name}"
         Console.ReadLine();
 
         Console.Clear();
+    }
+
+    internal static void ShowCategory(Category category)
+    {
+        var panel = new Panel(
+            $@"Id: {category.CategoryId}
+Name: {category.Name}
+Product Count: {category.Products.Count}"
+        );
+
+        panel.Header = new PanelHeader("Category Info");
+        panel.Padding = new Padding(2, 2, 2, 2);
+
+        AnsiConsole.Write(panel);
+
+        ShowProductTable(category.Products);
+
     }
 }

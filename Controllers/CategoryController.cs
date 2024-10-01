@@ -1,4 +1,5 @@
 ﻿using coffeeshop.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace coffeeshop.Controllers
 {
@@ -16,10 +17,12 @@ namespace coffeeshop.Controllers
         internal static  List<Category> GetCategories()
         {
             using var db = new ProductsContext();
-            var categories = db.Categories.ToList();
+            var categories = db.Categories.Include(x=>x.Products).ToList();
 
             return categories;
         }
+
+       
 
         internal static void DeleteCategory(Category category)
         {

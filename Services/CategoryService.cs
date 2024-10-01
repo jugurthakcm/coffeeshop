@@ -20,6 +20,12 @@ namespace coffeeshop.Services
             UserInterface.ShowCategoryTable(categories);
         }
 
+        internal static void GetCategory()
+        {
+            var category = GetCategoryOptionInput();
+            UserInterface.ShowCategory(category);
+        }
+
         internal static void DeleteCategory()
         {
             var category = GetCategoryOptionInput();
