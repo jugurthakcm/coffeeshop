@@ -1,6 +1,5 @@
 using coffeeshop.Models;
 using Microsoft.EntityFrameworkCore;
-using Spectre.Console;
 
 namespace coffeeshop.Controllers;
 
@@ -36,7 +35,7 @@ public class ProductController
     {
         using var db = new ProductsContext();
 
-        var products = db.Products.Include(x=>x.Category).ToList();
+        var products = db.Products.Include(x => x.Category).ToList();
 
         return products;
     }
@@ -45,7 +44,7 @@ public class ProductController
     {
         using var db = new ProductsContext();
 
-        var product = db.Products.Include(x=>x.Category).SingleOrDefault(p => p.ProductId == id);
+        var product = db.Products.Include(x => x.Category).SingleOrDefault(p => p.ProductId == id);
 
         return product;
     }

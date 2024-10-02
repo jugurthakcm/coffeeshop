@@ -1,6 +1,5 @@
 using coffeeshop.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace coffeeshop;
 
@@ -20,12 +19,12 @@ internal class ProductsContext : DbContext
 
         // Many to Many Relationship between Order and Product 
         modelBuilder.Entity<OrderProduct>()
-            .HasKey(op=> new {op.OrderId, op.ProductId});
+            .HasKey(op => new { op.OrderId, op.ProductId });
 
         modelBuilder.Entity<OrderProduct>()
-            .HasOne(op=>op.Order)
+            .HasOne(op => op.Order)
             .WithMany(o => o.OrderProducts)
-            .HasForeignKey(op =>op.OrderId);
+            .HasForeignKey(op => op.OrderId);
 
         modelBuilder.Entity<OrderProduct>()
            .HasOne(op => op.Product)
