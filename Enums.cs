@@ -8,6 +8,7 @@ internal class Enums
         ManageCategories,
         ManageProducts,
         ManageOrders,
+        GenerateReports,
         Quit
     }
 

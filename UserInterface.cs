@@ -15,7 +15,7 @@ internal static class UserInterface
 
         while (isAppRunning)
         {
-            Console.Clear();
+            // Console.Clear();
 
             var option = AnsiConsole.Prompt(
                 new SelectionPrompt<MainMenuOptions>()
@@ -24,6 +24,7 @@ internal static class UserInterface
                     MainMenuOptions.ManageCategories,
                     MainMenuOptions.ManageProducts,
                     MainMenuOptions.ManageOrders,
+                    MainMenuOptions.GenerateReports,
                     MainMenuOptions.Quit
                     )
             );
@@ -42,6 +43,10 @@ internal static class UserInterface
                     OrdersMenu();
                     break;
 
+                case MainMenuOptions.GenerateReports:
+                    ReportService.CreateMonthlyReport();
+                    break;
+
                 case MainMenuOptions.Quit:
                     Console.WriteLine("Goodbye");
                     isAppRunning = false;
@@ -56,7 +61,7 @@ internal static class UserInterface
 
         while (isCategoryMenuRunning)
         {
-            Console.Clear();
+            // Console.Clear();
 
             var option = AnsiConsole.Prompt(
                 new SelectionPrompt<CategoryMenu>()
@@ -109,7 +114,7 @@ internal static class UserInterface
 
         while (isProductMenuRunning)
         {
-            Console.Clear();
+            // Console.Clear();
 
             var option = AnsiConsole.Prompt(
                 new SelectionPrompt<ProductMenu>()
@@ -126,7 +131,7 @@ internal static class UserInterface
 
             switch (option)
             {
-                 case ProductMenu.AddProduct:
+                case ProductMenu.AddProduct:
                     ProductService.InsertProduct();
                     break;
 
@@ -159,7 +164,7 @@ internal static class UserInterface
 
         while (isOrderMenuRunning)
         {
-            Console.Clear();
+            // Console.Clear();
 
             var option = AnsiConsole.Prompt(
                 new SelectionPrompt<OrderMenu>()
@@ -210,7 +215,7 @@ Category: {product.Category.Name}"
         Console.WriteLine("Press any key to continue...");
         Console.ReadLine();
 
-        Console.Clear();
+        // Console.Clear();
     }
 
     internal static void ShowProductTable(List<Product> products)
@@ -231,7 +236,7 @@ Category: {product.Category.Name}"
         Console.WriteLine("Press any key to continue...");
         Console.ReadLine();
 
-        Console.Clear();
+        // Console.Clear();
     }
 
 
@@ -252,7 +257,7 @@ Category: {product.Category.Name}"
         Console.WriteLine("Press any key to continue...");
         Console.ReadLine();
 
-        Console.Clear();
+        // Console.Clear();
     }
 
     internal static void ShowCategory(Category category)
@@ -284,9 +289,9 @@ Product Count: {category.Products.Count}"
         foreach (var order in orders)
         {
             table.AddRow(
-                order.OrderId.ToString(), 
+                order.OrderId.ToString(),
                 order.CreatedDate.ToString(),
-                order.OrderProducts.Sum(x=> x.Quantity).ToString(), 
+                order.OrderProducts.Sum(x => x.Quantity).ToString(),
                 order.TotalPrice.ToString("C"));
         }
 
@@ -295,7 +300,7 @@ Product Count: {category.Products.Count}"
         Console.WriteLine("Press any key to continue...");
         Console.ReadLine();
 
-        Console.Clear();
+        // Console.Clear();
     }
 
     internal static void ShowOrder(Order order)
@@ -303,7 +308,7 @@ Product Count: {category.Products.Count}"
         var panel = new Panel(
            $@"Id: {order.OrderId}
 Date: {order.CreatedDate}
-Product Count: {order.OrderProducts.Sum(x=>x.Quantity)}"
+Product Count: {order.OrderProducts.Sum(x => x.Quantity)}"
        );
 
         panel.Header = new PanelHeader($"Order #{order.OrderId}");
@@ -311,7 +316,7 @@ Product Count: {order.OrderProducts.Sum(x=>x.Quantity)}"
 
         AnsiConsole.Write(panel);
 
-      
+
     }
 
     internal static void ShowProductsForOrderTable(List<ProductForOrderView> products)
@@ -332,7 +337,7 @@ Product Count: {order.OrderProducts.Sum(x=>x.Quantity)}"
                 product.CategoryName,
                 product.Price.ToString(),
                 product.Quantity.ToString(),
-                product.TotalPrice.ToString()
+                product.TotalPrice.ToString("C")
                 );
         }
 
@@ -340,6 +345,27 @@ Product Count: {order.OrderProducts.Sum(x=>x.Quantity)}"
 
         Console.WriteLine("Press Any Key to Return to Menu");
         Console.ReadLine();
-        Console.Clear();
+
+        // Console.Clear();
+    }
+
+    internal static void ShowReportByMonth(List<MonthlyReportDTO> report)
+    {
+        var table = new Table();
+        table.AddColumn("Month");
+        table.AddColumn("Total Quantity");
+        table.AddColumn("Total Sales");
+
+
+        foreach (var item in report)
+        {
+            table.AddRow(
+                item.Month, 
+                item.TotalQuantity.ToString(), 
+                item.TotalPrice.ToString("C")
+                );
+        }
+
+        AnsiConsole.Write(table);
     }
 }

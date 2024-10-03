@@ -45,7 +45,7 @@ internal class OrderService
     {
         var orders = OrderController.GetOrders();
 
-        var ordersArray = orders.Select(x => $"{x.OrderId}.{x.CreatedDate} - {x.TotalPrice}").ToArray();
+        var ordersArray = orders.Select(x => $"{x.OrderId}.{x.CreatedDate} - {x.TotalPrice.ToString("C")}").ToArray();
 
         var option = AnsiConsole.Prompt(
             new SelectionPrompt<string>().Title("Choose Order").AddChoices(ordersArray)
